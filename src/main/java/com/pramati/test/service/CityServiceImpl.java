@@ -1,5 +1,6 @@
-	package com.pramati.test.service;
+package com.pramati.test.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,18 @@ public class CityServiceImpl implements CityService {
 	CityDataRepository cityRepositiry;
 
 	@Override
-	public List<City> getCityList(String serchQuery, int atMost) {
+	public String getCityList(String serchQuery, int atMost) {
 		List<City> cityList = cityRepositiry.find(serchQuery, atMost);
 		if (cityList == null || cityList.size() == 0) {
 			throw new CityNotFoundException("No City Found with Name - " + serchQuery);
 		}
 
-		return cityList;
+		String cityName = "";
+		for (City s : cityList) {
+			cityName = cityName + "\n" + s.getName();
+		}
+
+		return cityName;
 
 	}
 
